@@ -78,7 +78,7 @@
   
     * 最稳定版本为 2.4.3，(截止到2021-3-5)
   
-      ![图片](images\img3.png)
+      ![图片](images/img3.png)
   
 * Spring cloud版本选择
 
@@ -86,7 +86,7 @@
 
   * spring cloud 版本使用单词命名
 
-    ![](images\img4.png)
+    ![](images/img4.png)
 
   * > ####  spring cloud采用英国伦敦地铁站的名称来命名，并由地铁站名称A-Z一次类推的形式来发布迭代版本,SpringCloud是一个由许多子项目组成的综合项目，各个子项目有不同的发布节奏。为了管理SpringCloud与各子项目的版本依赖关系，发布了一个清单，包括了某个Spring Cloud版本对应的子项目版本。为了避免SpringCloud版本号与子项目版本号混淆，SpringCloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序。例如Angel是第一个版本，Brixton是第二个版本。当SpringCloud的发布内容积累到一个临界点或者一个重大BUG解决后，会发布一个“Service releases”版本，简称SRX版本，比如Greenwich.SR2就是SpringCloud发布的Greenwich版本的第二个SRX版本
 
@@ -94,13 +94,13 @@
 
   * 说明网址 [官网说明网址](https://spring.io/projects/spring-cloud#overview)
 
-    ![](images\img5.png)
+    ![](images/img5.png)
 
   * 更详细的版本对应查看方法
 
     * [网址](https://start.spring.io/actuator/info)
 
-      ![](images\img6.png)
+      ![](images/img6.png)
 
 ### 关于SpringCloud各种组件的停更/升级/替换
 
@@ -148,7 +148,7 @@
   * Spring cloud bus
   * nacos(推荐)
 
-![](images\img7.png)
+![](images/img7.png)
 
 #### 官网
 
