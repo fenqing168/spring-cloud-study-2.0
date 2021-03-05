@@ -170,22 +170,22 @@
 * 其次 在建立子工程
   1. new Project
      * file -> New -> Project
-     * <img src="./images/img8.png" style="zoom: 80%;" />
+     * ![](images/img8.png)
   2. 选择创建maven项目，使用maven-archetype-site模板
-     * <img src="images/img9.png" style="zoom: 80%;" />
+     * ![](images/img9.png)
   3. group id 统一为cn.fenqing168.springcloud
-     * <img src="images/img10.png" style="zoom: 80%;" />
+     *  ![](images/img10.png)
   4. maven尽量采用3.5以上，以及settings.xml尽量设置国内镜像
-     * <img src="images/img11.png" style="zoom: 80%;" />
+     *  ![](images/img11.png)
   5. 设置项目字符编码
-     * <img src="images/img12.png" style="zoom: 80%;" />
-     * <img src="images/img13.png" style="zoom: 80%;" />
+     *  ![](images/img12.png)
+     *  ![](images/img13.png)
   6. 注解激活生效
-     * <img src="images/img12.png" style="zoom: 80%;" />
-     * <img src="images/img14.png" style="zoom: 80%;" />
+     *  ![](images/img12.png)
+     *  ![](images/img14.png)
   7. java编译版本选8
-     * <img src="images/img12.png" style="zoom: 80%;" />
-     * <img src="images/img15.png" style="zoom: 80%;" />
+     *  **![](images/img12.png)**
+     *  ![](images/img15.png)
 
 #### Rest微服务工程构建
 
