@@ -157,3 +157,44 @@
 * [spring boot文档地址](https://docs.spring.io/spring-boot/docs/2.4.3/reference/html/)
 
 ### 总结
+
+## 编码
+
+### 项目的构建
+
+#### 约定 > 配置 > 编码
+
+#### IDEA新建project工作空间
+
+* 先建立一个总父工程
+* 其次 在建立子工程
+  1. new Project
+     * file -> New -> Project
+     * <img src="images/img8.png" style="zoom: 80%;" />
+  2. 选择创建maven项目，使用maven-archetype-site模板
+     * <img src="images/img9.png" style="zoom: 80%;" />
+  3. group id 统一为cn.fenqing168.springcloud
+     * <img src="images/img10.png" style="zoom: 80%;" />
+  4. maven尽量采用3.5以上，以及settings.xml尽量设置国内镜像
+     * <img src="images/img11.png" style="zoom: 80%;" />
+  5. 设置项目字符编码
+     * <img src="images/img12.png" style="zoom: 80%;" />
+     * <img src="images/img13.png" style="zoom: 80%;" />
+  6. 注解激活生效
+     * <img src="images/img12.png" style="zoom: 80%;" />
+     * <img src="images/img14.png" style="zoom: 80%;" />
+  7. java编译版本选8
+     * <img src="images/img12.png" style="zoom: 80%;" />
+     * <img src="images/img15.png" style="zoom: 80%;" />
+
+#### Rest微服务工程构建
+
+1. 父工程的pom文件修改
+
+   1. 修改packageing为pom
+
+      ```xml
+      <packaging>pom</packaging>
+      ```
+
+      
