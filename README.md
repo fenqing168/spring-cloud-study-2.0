@@ -170,7 +170,7 @@
 * 其次 在建立子工程
   1. new Project
      * file -> New -> Project
-     * <img src="images/img8.png" style="zoom: 80%;" />
+     * <img src="./images/img8.png" style="zoom: 80%;" />
   2. 选择创建maven项目，使用maven-archetype-site模板
      * <img src="images/img9.png" style="zoom: 80%;" />
   3. group id 统一为cn.fenqing168.springcloud
