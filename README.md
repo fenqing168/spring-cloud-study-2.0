@@ -187,14 +187,385 @@
      *  **![](images/img12.png)**
      *  ![](images/img15.png)
 
-#### Rest微服务工程构建
+#### 父工程的pom文件修改
 
-1. 父工程的pom文件修改
+1. 修改packageing为pom
 
-   1. 修改packageing为pom
+   * ```
+     <packaging>pom</packaging>
+     ```
 
-      ```xml
-      <packaging>pom</packaging>
+2. 把这个项目当做总的依赖版本控制，写上properties标签，与dependencyManagement标签，后续需要用到什么回头在添加
+
+   * ```xml
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+         <maven.compiler.source>8</maven.compiler.source>
+         <maven.compiler.target>8</maven.compiler.target>
+     </properties>
+     
+     <dependencyManagement></dependencyManagement>
+     ```
+
+3. maven 跳过单元测试
+
+   * ![](images/img16.png)
+
+
+
+### Rest微服务工程构建
+
+#### 项目结构
+
+* 客户端消费者80 order
+* 微服务提供者8001 payment
+* ![](images/img17.png)
+
+#### 建微服务模块流程
+
+* 建module
+* 改pom
+* 写yml
+* 主启动
+* 业务类
+
+#### 微服务提供者支付模块
+
+* 创建子模块maven项目cloud-provider-payment8001
+
+* 修改pom
+
+  * mybatis-spring-boot-starter由于不在仲裁中心之内，查阅文档得知，最新的版本只要Spring boot版本大于2.1即可使用
+
+    * [mybatis-spring-boot-starter git hub网址](https://github.com/mybatis/spring-boot-starter)
+    * ![](images/img18.png)
+    * 所以采用最新版2.1.4（截止2021-3-6）
+    * ![](images/img19.png)
+
+  * 先给父工程里的dependencyManagement追加相对于的依赖
+
+  * ```xml
+    <!--spring boot 仲裁中心-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+    
+    <!--mybatis spring boot 自动配置-->
+    <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>${mybatis-spring-boot.version}</version>
+    </dependency>
+    
+    ```
+
+  * 给父工程的properties追加相对于的版本号
+
+  * ```xml
+    <spring-boot.version>2.2.13.RELEASE</spring-boot.version>
+    <mybatis-spring-boot.version>2.1.4</mybatis-spring-boot.version>
+    ```
+
+  * 子工程中引入相关依赖
+
+  * ```xml
+    <dependencies>
+        <!--spring boot web 的自动配置依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- spring boot 监控系统健康 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- mybatis自动配置依赖 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- druid数据源自动配置依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+    
+        <!-- mysql驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+    
+        <!-- spring boot jdbc 自动配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+    
+        <!-- lombok插件 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    
+        <!-- spring boot 单元测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+    
+    </dependencies>
+    ```
+
+* 写YML
+
+  * ```yaml
+    server:
+      port: 8001
+    
+    spring:
+      application:
+        name: cloud-payment-service
+    
+      datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.31.200/mysql/useUnicode=true&characterEncoding=utf-8&useSSL=false
+        username: root
+        password: 123456
+    
+    mybatis:
+      mapper-locations: classpath*:mapper/*.xml
+      type-aliases-package: cn.fenqing168.springcloud.entities
+    ```
+
+* 主启动
+
+  * ```java
+    @SpringBootApplication
+    public class PaymentApplication {
+    
+        public static void main(String[] args) {
+            SpringApplication.run(PaymentApplication.class, args);
+        }
+        
+    }
+    ```
+
+* 编写业务
+
+  * 创建数据库表
+
+    * ```sql
+      CREATE TABLE `payment` (
+        `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+        `serial` varchar(200) DEFAULT NULL,
+        PRIMARY KEY (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
       ```
 
+  * 实体类
+
+    * ```java
+      @Data
+      @AllArgsConstructor
+      @NoArgsConstructor
+      public class Payment {
       
+          private Long id;
+      
+          private String serial;
+      
+      }
+      ```
+
+  * 接口统一返回对象
+
+    * ```java
+      @Data
+      @NoArgsConstructor
+      @AllArgsConstructor
+      public class BaseResult<T> {
+      
+          private Integer code;
+          private T data;
+          private String msg;
+      
+          public static <T> BaseResult<T> success(){
+              return success(null);
+          }
+      
+          public static <T> BaseResult<T> success(T data){
+              return success(data, "success");
+          }
+      
+          public static <T> BaseResult<T> success(T data, String msg){
+              return new BaseResult<>(200, data, msg);
+          }
+      
+          public static <T> BaseResult<T> error(){
+              return error(null);
+          }
+      
+          public static <T> BaseResult<T> error(T data){
+              return error(data, "error");
+          }
+      
+          public static <T> BaseResult<T> error(T data, String msg){
+              return new BaseResult<>(500, data, msg);
+          }
+      
+      
+      }
+      ```
+
+  * dao
+
+    * dao接口
+
+      * ```java
+        /**
+         * @author Administrator
+         */
+        @Mapper
+        public interface PaymentDao {
+        
+            /**
+             * 添加
+             * @param payment 实体
+             * @return 影响条数
+             */
+            int insert(Payment payment);
+        
+            /**
+             * 查询
+             * @param id id
+             * @return 查询到的结果
+             */
+            Payment getById(@Param("id") Long id);
+        
+        }
+        ```
+
+    * mapper.xml
+
+      * ```xml
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+        <mapper namespace="cn.fenqing168.springcloud.dao.PaymentDao">
+        
+            <resultMap id="BaseResultMap" type="cn.fenqing168.springcloud.entities.Payment">
+                <id column="id" property="id" jdbcType="BIGINT"/>
+                <id column="serial" property="serial" jdbcType="VARCHAR"/>
+            </resultMap>
+        
+            <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+                insert into payment(serial) values (#{serial})
+            </insert>
+        
+            <select id="getById" resultMap="BaseResultMap">
+                select * from payment where id = #{id}
+            </select>
+        </mapper>
+        ```
+
+  * service
+
+    * 接口
+
+      * ```java
+        public interface IPaymentService {
+        
+            /**
+             * 添加
+             * @param payment 实体
+             * @return 影响条数
+             */
+            int insert(Payment payment);
+        
+            /**
+             * 查询
+             * @param id id
+             * @return 查询到的结果
+             */
+            Payment getById(Long id);
+            
+        }
+        ```
+
+    * 实现类
+
+      * ```java
+        @Service
+        public class PaymentServiceImpl implements IPaymentService {
+        
+            @Autowired
+            private PaymentDao paymentDao;
+        
+            @Override
+            public int insert(Payment payment) {
+                return paymentDao.insert(payment);
+            }
+        
+            @Override
+            public Payment getById(Long id) {
+                return paymentDao.getById(id);
+            }
+        }
+        ```
+
+  * controller
+
+    * ```java
+      @RestController
+      @Slf4j
+      public class PaymentController {
+      
+          @Autowired
+          private IPaymentService iPaymentService;
+      
+          /**
+           * 添加
+           *
+           * @param payment 实体
+           * @return 影响条数
+           */
+          @PostMapping("/payment/create")
+          public BaseResult<Integer> insert(@RequestBody Payment payment) {
+              int res = iPaymentService.insert(payment);
+              log.info("****插入结果：{}", res);
+              if (res > 0) {
+                  return BaseResult.success(null, "插入数据库成功");
+              } else {
+                  return BaseResult.error(null, "插入数据库失败");
+              }
+          }
+      
+          /**
+           * 查询
+           *
+           * @param id id
+           * @return 查询到的结果
+           */
+          @GetMapping("/payment/get/{id}")
+          public BaseResult<Payment> getById(@PathVariable("id") Long id) {
+              Payment payment = iPaymentService.getById(id);
+              if (payment != null) {
+                  return BaseResult.success(payment, "查询成功");
+              } else {
+                  return BaseResult.error(null, "查询失败");
+              }
+          }
+      
+      }
+      ```
+
+    
+

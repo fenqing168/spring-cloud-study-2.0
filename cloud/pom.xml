@@ -9,11 +9,59 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <modules>
+    <module>cloud-provider-payment8001</module>
+  </modules>
+
   <name>cloud</name>
   <inceptionYear>2001</inceptionYear>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <spring-boot.version>2.2.13.RELEASE</spring-boot.version>
+    <mybatis-spring-boot.version>2.1.4</mybatis-spring-boot.version>
+    <druid-spring-boot.version>1.2.5</druid-spring-boot.version>
+    <mysql.version>8.0.23</mysql.version>
   </properties>
+
+  <dependencyManagement>
+
+    <dependencies>
+      <!--spring boot 仲裁中心-->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!--mybatis spring boot 自动配置-->
+      <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>${mybatis-spring-boot.version}</version>
+      </dependency>
+
+      <!--druid 数据源自动配置 -->
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid-spring-boot-starter</artifactId>
+        <version>${druid-spring-boot.version}</version>
+      </dependency>
+
+      <!-- mysql驱动 -->
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.version}</version>
+      </dependency>
+
+
+    </dependencies>
+
+  </dependencyManagement>
 
 </project>
