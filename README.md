@@ -1,5 +1,10 @@
 # Spring-cloud学习
-## 微服务
+## 目录
+
+1. ### [微服务介绍](./README.md)
+
+2. ### [RestTemplate](sections/restTemplate.md)
+
 ### 微服务架构概述
 
 #### 什么事微服务
@@ -299,7 +304,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
         </dependency>
     
         <!-- spring boot jdbc 自动配置-->
@@ -323,7 +327,7 @@
     
     </dependencies>
     ```
-
+  
 * 写YML
 
   * ```yaml
@@ -567,5 +571,88 @@
       }
       ```
 
-    
 
+#### 微服务消费者订单模块
+
+* 建module cloud-cpnsumer-order80
+
+* 写pom
+
+  * ```xml
+      <dependencies>
+        <!--spring boot web 的自动配置依赖-->
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- spring boot 监控系统健康 -->
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- mybatis自动配置依赖 -->
+        <dependency>
+          <groupId>org.mybatis.spring.boot</groupId>
+          <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- druid数据源自动配置依赖 -->
+        <dependency>
+          <groupId>com.alibaba</groupId>
+          <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+    
+        <!-- mysql驱动 -->
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+    
+        <!-- spring boot jdbc 自动配置-->
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+    
+        <!-- lombok插件 -->
+        <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <scope>compile</scope>
+        </dependency>
+    
+        <!-- spring boot 单元测试 -->
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+    
+      </dependencies>
+    ```
+
+* 改yml
+
+  * ```yaml
+    server:
+      port: 80
+    ```
+
+* 主启动
+
+  * ```java
+    @SpringBootApplication
+    public class OrderApplication {
+    
+        public static void main(String[] args) {
+            SpringApplication.run(OrderApplication.class, args);
+        }
+        
+    }
+    ```
+
+* 业务类
+
+  * 将实体类与统一返回对象拷贝过来
+
+  * 写controller
+
+  * > 由于订单需要调用支付模块，在原始的方法中可以使用httpClient或者okHttp等http工具，在Springboot中可以使用restTemplate,详情见[restTemplate](#RestTemplate)

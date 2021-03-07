@@ -11,6 +11,7 @@
 
   <modules>
     <module>cloud-provider-payment8001</module>
+    <module>cloud-cpnsumer-order80</module>
   </modules>
 
   <name>cloud</name>
