@@ -656,3 +656,61 @@
   * 写controller
 
   * > 由于订单需要调用支付模块，在原始的方法中可以使用httpClient或者okHttp等http工具，在Springboot中可以使用restTemplate,详情见[restTemplate](#RestTemplate)
+
+  * restTemplate注册到容器中
+
+    * ```java
+      @Configuration
+      public class ApplicationContextConfig {
+      
+          @Bean
+          public RestTemplate getRestTemplate(){
+              return new RestTemplate();
+          }
+          
+      }
+      
+      ```
+
+  * ```java
+    @RestController
+    @Slf4j
+    public class OrderController {
+    
+        public final static String PAYMENT_URL = "http://localhost:8001";
+    
+        @Autowired
+        public RestTemplate restTemplate;
+    
+        @PostMapping("/consumer/payment/create")
+        public BaseResult<Integer> create(@RequestBody Payment payment){
+            HttpHeaders headers = new HttpHeaders();
+            MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+            headers.setContentType(type);
+            headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+            HttpEntity<String> formEntity = new HttpEntity<>(JSONObject.toJSONString(payment), headers);
+            return restTemplate.postForObject(PAYMENT_URL + "/payment/create", formEntity, BaseResult.class);
+        }
+    
+        @GetMapping("/consumer/payment/get/{id}")
+        public BaseResult<Payment> get(@PathVariable Long id){
+            HttpHeaders headers = new HttpHeaders();
+            MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+            headers.setContentType(type);
+            headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+            return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id, BaseResult.class);
+        }
+    }
+    ```
+
+#### 工程重构
+
+* 存在的问题
+  * 有可以通用的类可以抽取
+
+* 抽取通用工程cloud-api-commons，用于存放共用的类
+* 其他项目依赖cloud-api-commons项目，删除共用的类
+
+## 后续工作见各组件目录补充
+
+[目录](#目录)

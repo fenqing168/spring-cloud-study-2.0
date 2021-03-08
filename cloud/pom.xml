@@ -12,6 +12,7 @@
   <modules>
     <module>cloud-provider-payment8001</module>
     <module>cloud-cpnsumer-order80</module>
+    <module>cloud-api-commons</module>
   </modules>
 
   <name>cloud</name>
@@ -25,6 +26,8 @@
     <mybatis-spring-boot.version>2.1.4</mybatis-spring-boot.version>
     <druid-spring-boot.version>1.2.5</druid-spring-boot.version>
     <mysql.version>8.0.23</mysql.version>
+    <fastjson.version>1.2.75</fastjson.version>
+    <hutool.version>5.5.9</hutool.version>
   </properties>
 
   <dependencyManagement>
@@ -58,6 +61,27 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.version}</version>
+      </dependency>
+
+      <!--fastjson json操作工具-->
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>${fastjson.version}</version>
+      </dependency>
+
+      <!-- hutool 工具包 -->
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-all</artifactId>
+        <version>${hutool.version}</version>
+      </dependency>
+
+      <!--项目共用依赖-->
+      <dependency>
+        <groupId>cn.fenqing168.springcloud</groupId>
+        <artifactId>cloud-api-commons</artifactId>
+        <version>${project.version}</version>
       </dependency>
 
 

@@ -63,6 +63,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
+        <!--项目共用依赖-->
+        <dependency>
+            <groupId>cn.fenqing168.springcloud</groupId>
+            <artifactId>cloud-api-commons</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

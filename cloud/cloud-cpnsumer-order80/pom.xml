@@ -10,9 +10,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>cn.fenqing168.springcloud</groupId>
   <artifactId>cloud-cpnsumer-order80</artifactId>
-  <version>1.0-SNAPSHOT</version>
 
   <name>cloud-cpnsumer-order80</name>
   <inceptionYear>2001</inceptionYear>
@@ -32,28 +30,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-    <!-- mybatis自动配置依赖 -->
-    <dependency>
-      <groupId>org.mybatis.spring.boot</groupId>
-      <artifactId>mybatis-spring-boot-starter</artifactId>
-    </dependency>
-    <!-- druid数据源自动配置依赖 -->
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>druid-spring-boot-starter</artifactId>
-    </dependency>
-
-    <!-- mysql驱动 -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-    </dependency>
-
-    <!-- spring boot jdbc 自动配置-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jdbc</artifactId>
-    </dependency>
 
     <!-- lombok插件 -->
     <dependency>
@@ -66,6 +42,18 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
+    </dependency>
+
+    <!--fastjson json操作工具-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+    </dependency>
+
+    <!--项目共用依赖-->
+    <dependency>
+      <groupId>cn.fenqing168.springcloud</groupId>
+      <artifactId>cloud-api-commons</artifactId>
     </dependency>
 
   </dependencies>
