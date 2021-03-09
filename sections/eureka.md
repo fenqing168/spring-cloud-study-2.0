@@ -138,4 +138,48 @@
 
 ### EurekaClient端payment8001注册进EurekaServer成为服务提供者
 
+#### 改POM 
+
+* eureka的1.x与2.x的区别
+  * 老版本采用spring-cloud-starter-eureka
+  * 新版本采用spring-cloud-start-netflix-eureka-client（对server与client做了细分）
+
+* 在payment8001项目中POM里补充eureka-client的starter
+
+* ```xml
+   <!-- spring cloud eureka 客户端组件 -->
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+  </dependency>
+  ```
+
+* 
+
+#### 写YML 
+
+* ```yaml
+  eureka:
+    client:
+      # 向注册中心注册自己
+      register-with-eureka: true
+      # 需要服务发现功能
+      fetch-registry: true
+      # 是一个Map<String, String>，defaultZone可以指定交互的地址查询服务和注册服务的地址
+      service-url:
+        # 通过这个地址与注册中心保存连接与注册
+        defaultZone: http://localhost:7001/eureka
+  ```
+
+#### 主启动
+
+* 在类上补充注解@EnableEurekaClient
+
+#### 测试 
+
+* 浏览器启动项目，并且观察注册中心可视化界面的变化
+* ![](../images/img23.png)
+* 微服务的注册名称配置说明，即spring.application.name
+  * 微服务会以spring.application.name作为微服务名
+
 ### EurekaClient端Order80注册进EurekaServer成为服务消费者

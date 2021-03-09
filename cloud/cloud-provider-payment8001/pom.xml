@@ -69,6 +69,12 @@
             <artifactId>cloud-api-commons</artifactId>
         </dependency>
 
+        <!-- spring cloud eureka 客户端组件 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
