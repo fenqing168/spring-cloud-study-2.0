@@ -183,3 +183,20 @@
   * 微服务会以spring.application.name作为微服务名
 
 ### EurekaClient端Order80注册进EurekaServer成为服务消费者
+
+#### POM 
+
+* 与payment8001一样的改动
+
+#### YML 
+
+* 与payment8001一样的改动
+
+#### 主启动 
+
+* 与payment8001一样的改动
+
+#### 测试
+
+* 启动后观察注册中心变化
+* ![](../images/img24.png)
