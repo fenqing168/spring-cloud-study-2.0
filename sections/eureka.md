@@ -133,6 +133,9 @@
 
 #### 测试
 
+* 浏览器输入 http://localhost:7001/
+* ![](../images/img22.png)
+
 ### EurekaClient端payment8001注册进EurekaServer成为服务提供者
 
 ### EurekaClient端Order80注册进EurekaServer成为服务消费者
