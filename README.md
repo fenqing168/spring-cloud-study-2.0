@@ -5,6 +5,8 @@
 
 2. ### [RestTemplate](sections/restTemplate.md)
 
+3. ### [eureka](sections/eureka.md)
+
 ### 微服务架构概述
 
 #### 什么事微服务
@@ -600,32 +602,32 @@
           <groupId>com.alibaba</groupId>
           <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
-    
+      
         <!-- mysql驱动 -->
         <dependency>
           <groupId>mysql</groupId>
           <artifactId>mysql-connector-java</artifactId>
         </dependency>
-    
+      
         <!-- spring boot jdbc 自动配置-->
         <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
-    
+      
         <!-- lombok插件 -->
         <dependency>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok</artifactId>
           <scope>compile</scope>
         </dependency>
-    
+      
         <!-- spring boot 单元测试 -->
         <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
-    
+      
       </dependencies>
     ```
 
@@ -713,4 +715,4 @@
 
 ## 后续工作见各组件目录补充
 
-[目录](#目录)
+1. [eureka](#eureka)

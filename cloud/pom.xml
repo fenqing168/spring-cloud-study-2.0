@@ -13,6 +13,7 @@
     <module>cloud-provider-payment8001</module>
     <module>cloud-cpnsumer-order80</module>
     <module>cloud-api-commons</module>
+    <module>cloud-eureka-server7001</module>
   </modules>
 
   <name>cloud</name>
@@ -28,6 +29,7 @@
     <mysql.version>8.0.23</mysql.version>
     <fastjson.version>1.2.75</fastjson.version>
     <hutool.version>5.5.9</hutool.version>
+    <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
   </properties>
 
   <dependencyManagement>
@@ -83,6 +85,16 @@
         <artifactId>cloud-api-commons</artifactId>
         <version>${project.version}</version>
       </dependency>
+
+      <!-- spring cloud 依赖管理仲裁项目-->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring.cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
 
 
     </dependencies>

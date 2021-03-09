@@ -23,3 +23,116 @@
 ### EurekaClient通过注册中心进行访问
 
 是一个Java客户端，用于简化EurekaServer的交互，客户端同时也具备一个内置的，使用轮询（round-robin）负载算法的负载均衡器。在应用启动后，将会向Eureka Server发送心跳（周期是30秒）。如果Eureka Server 在多个心跳周期内没有接收到某个节点的心跳，EurekaServer将会从服务注册表中把这个服务节点移除（默认90秒）
+
+## 单机Eureka搭建
+
+### 创建EurekaServer注册中心工程
+
+#### 建Model 
+
+* 创建maven项目cloud-eureka-server7001
+
+#### 改POM 
+
+* eureka的1.x与2.x的区别
+
+  * 老版本采用spring-cloud-starter-eureka
+  * 新版本采用spring-cloud-start-netflix-eureka-server（对server与client做了细分）
+
+* 由于Spring boot采用2.2.13.RELEASE版本，在Spring官方提供的依赖关系查询中得知，可以使用**Hoxton.SR10**的版本
+
+* ![](../images/img21.png)
+
+* 引入在父工程补充Hoxton.SR10的Spring cloud 依赖仲裁工程
+
+* ```xml
+  <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
+  ```
+
+* ```xml
+  <!-- spring cloud 依赖管理仲裁项目-->
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-dependencies</artifactId>
+      <version>${spring.cloud.version}</version>
+      <type>pom</type>
+      <scope>import</scope>
+  </dependency>
+  ```
+
+* 在cloud-eureka-server7001项目中添加基本web环境的同时加上eureka-server的starter
+
+* ```xml
+  <dependencies>
+      <!--spring boot web 的自动配置依赖-->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+      </dependency>
+      <!-- spring boot 监控系统健康 -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+  
+      <!-- spring boot 单元测试 -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-test</artifactId>
+      </dependency>
+  
+      <!-- eureka server 组件 -->
+      <dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+      </dependency>
+  
+  </dependencies>
+  ```
+
+#### 写YML 
+
+* ```yaml
+  server:
+    port: 7001
+  
+  eureka:
+    instance:
+      hostname: localhost # eureka服务端的实例名称
+  
+    client:
+      # 是否将自己注册到注册中心
+      register-with-eureka: false
+      # 是否是否需要去检索服务，由于当前是注册中心，不需要去服务发现与调用
+      fetch-registry: false
+      # 是一个Map<String, String>，defaultZone可以指定交互的地址查询服务和注册服务的地址
+      service-url:
+        # 提供暴露的地址，客户端通过该地址来连接并且注册
+        defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  ```
+
+#### 主启动 
+
+* ```java
+  /**
+   * 通过EnableEurekaServer来开启注册中心服务功能
+   * @author Administrator
+   */
+  @SpringBootApplication
+  @EnableEurekaServer
+  public class EurekaApplication {
+  
+      public static void main(String[] args) {
+          SpringApplication.run(EurekaApplication7001.class, args);
+      }
+  
+  }
+  ```
+
+* 
+
+#### 测试
+
+### EurekaClient端payment8001注册进EurekaServer成为服务提供者
+
+### EurekaClient端Order80注册进EurekaServer成为服务消费者
