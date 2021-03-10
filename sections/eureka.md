@@ -200,3 +200,95 @@
 
 * 启动后观察注册中心变化
 * ![](../images/img24.png)
+
+## 集群Eureka构建步骤
+
+### Eureka集群原理说明 
+
+* 注册中心是微服务的核心组件，服务发现与调用都离不了它。如果他宕机了则会引起整个微服务环境不可用
+* 解决方案：搭建集群
+* 集群的原理
+  * 互相注册，相互守望
+
+### EurekaServer集群环境构建步骤 
+
+* 新建cloud-eureka-server7002
+
+* 改pom
+
+  * 与cloud-eureka-server7001
+
+* 修改映射配置
+
+  * 修改windows下的hosts文件，分别给两个域名
+
+  * 在 C:\Windows\System32\drivers\etc\hosts文件 追加两行
+
+  * ``````
+    127.0.0.1 eureka1.fq.com
+    127.0.0.1 eureka2.fq.com
+    ``````
+
+* 写YML
+
+  * 与单机版差不多，但eureka.instance.hostname要有所区分，但是通过次标识能指向本机
+
+  * eureka.client.service-url.defaultZone的地址应该写其他的eureka地址
+
+  * ```yaml
+    server:
+      port: 7002
+    eureka:
+      instance:
+        hostname: eureka2.fq.com # eureka服务端的实例名称
+      client:
+        # 是否将自己注册到注册中心
+        register-with-eureka: false
+        # 是否是否需要去检索服务，由于当前是注册中心，不需要去服务发现与调用
+        fetch-registry: false
+        # 是一个Map<String, String>，defaultZone可以指定交互的地址查询服务和注册服务的地址
+        service-url:
+          # 注册到7001
+          defaultZone: http://eureka1.fq.com:7001/eureka/
+    ```
+
+  * ```yaml
+    server:
+      port: 7001
+    
+    eureka:
+      instance:
+        hostname: eureka1.fq.com # eureka服务端的实例名称
+    
+      client:
+        # 是否将自己注册到注册中心
+        register-with-eureka: false
+        # 是否是否需要去检索服务，由于当前是注册中心，不需要去服务发现与调用
+        fetch-registry: false
+        # 是一个Map<String, String>，defaultZone可以指定交互的地址查询服务和注册服务的地址
+        service-url:
+          # 注册到7002
+          defaultZone: http://eureka2.fq.com:7002/eureka/
+    ```
+
+  * 
+
+* 主启动
+
+  * 与cloud-eureka-server7001一致
+  * 访问浏览器效果
+  * 7001
+  * ![](../images/img25.png)
+  * 7002
+  * ![](../images/img26.png)
+  * 可以发现DS Replicas是相互注册的
+
+### 将支付模块微服务发布到两台Eureka集群 
+
+### 将订单服务发布到2台集群中 测试01 
+
+### 支付服务提供者8001集群环境构建 
+
+### 负载均衡 
+
+### 测试02

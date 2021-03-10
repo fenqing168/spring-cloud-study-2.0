@@ -1,9 +1,9 @@
 server:
-  port: 7001
+  port: 7002
 
 eureka:
   instance:
-    hostname: eureka1.fq.com # eureka服务端的实例名称
+    hostname: eureka2.fq.com # eureka服务端的实例名称
 
   client:
     # 是否将自己注册到注册中心
@@ -12,5 +12,5 @@ eureka:
     fetch-registry: false
     # 是一个Map<String, String>，defaultZone可以指定交互的地址查询服务和注册服务的地址
     service-url:
-      # 注册到7002
-      defaultZone: http://eureka2.fq.com:7002/eureka/
+      # 注册到7001
+      defaultZone: http://eureka1.fq.com:7001/eureka/
