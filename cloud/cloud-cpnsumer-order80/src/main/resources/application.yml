@@ -14,4 +14,4 @@ eureka:
     # 是一个Map<String, String>，defaultZone可以指定交互的地址查询服务和注册服务的地址
     service-url:
       # 通过这个地址与注册中心保存连接与注册
-      defaultZone: http://localhost:7001/eureka
+      defaultZone: http://eureka1.fq.com:7001/eureka,http://eureka2.fq.com:7002/eureka

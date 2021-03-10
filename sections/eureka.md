@@ -285,9 +285,55 @@
 
 ### 将支付模块微服务发布到两台Eureka集群 
 
+* 只需要改动YML的eureka.service-url.defaultZone，改成两个eureka的地址，用逗号分割
+
 ### 将订单服务发布到2台集群中 测试01 
 
+* 只需要改动YML的eureka.service-url.defaultZone，改成两个eureka的地址，用逗号分割
+
 ### 支付服务提供者8001集群环境构建 
+
+* 客户端也可以集群配置，
+
+* 新建payment8002
+
+  * 改POM，与8001的一致
+
+  * 写YML，与8001的一致，修改端口，要想达成集群的效果，spring.application.name要保持一致
+
+  * 主启动
+
+  * 业务类
+
+  * 修改8001/8002的Controller
+
+    * 注入端口号，查询成功后返回结果加上端口号，查看效果
+
+    * ```java
+      @Value("${server.port}")
+      private String port;
+      return BaseResult.success(payment, "查询成功：" + port);
+      ```
+
+    * 将消费者80的请求地址由写死的换成微服务名称，注册中心会自动寻找ip和端口
+
+      ```java
+      public final static String PAYMENT_URL = "http://CLOUD-PAYMENT-SERVICE";
+      ```
+
+    * 但是会报 java.net.UnknownHostException: CLOUD-PAYMENT-SERVICE"异常
+
+    * 因为RestTemplate并没有支持解析微服务名称的功能，需要加@LoadBalanced,来是的RestTemplate的bean带有此功能
+
+    * ```java
+      @Bean
+      @LoadBalanced
+      public RestTemplate getRestTemplate(){
+          return new RestTemplate();
+      }
+      ```
+
+    * 
 
 ### 负载均衡 
 
