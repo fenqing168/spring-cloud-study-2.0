@@ -351,3 +351,18 @@
 * 微服务点击跳转链接，并没有携带真实ip地址
 * ![](../images/img28.png)
 * 在YML中补充eureka.instance.prefer-ip-address，即可自动获取本机ip，生效于eureka可视化界面的链接上 
+
+## 服务发现Discovery
+
+* 对于注册进eureka里面的微服务，可以通过服务发现来获得改服务的信息
+  * 通过注入DiscoveryClient的bean
+  * getServices方法可以获取注册中心注册的全部服务名称
+  * getInstances(服务名) 可以获取具体的服务名称的实例，返回一个ServiceInstance类型的List
+  * ServiceInstance类型有如下的方法
+    *  getServiceId方法，获取服务id
+    *  getHost方法 获取主机地址
+    *  getPort方法 获取端口号
+    *  getUri方法 获取整体的访问链接
+* 8001主启动类
+  * 要想以上的功能有效，需要在主启动类上使用EnableDiscoveryClient注解开启
+* 自测
