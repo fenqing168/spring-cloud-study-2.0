@@ -323,7 +323,7 @@
 
     * 但是会报 java.net.UnknownHostException: CLOUD-PAYMENT-SERVICE"异常
 
-    * 因为RestTemplate并没有支持解析微服务名称的功能，需要加@LoadBalanced,来是的RestTemplate的bean带有此功能
+    * 因为RestTemplate并没有支持解析微服务名称的功能，需要加@LoadBalanced,来是的RestTemplate的bean带有此功能(实际上是开启Ribbon)
 
     * ```java
       @Bean
@@ -333,8 +333,21 @@
       }
       ```
 
-    * 
+## actuator微服务信息完善
 
-### 负载均衡 
+### 主机名称：服务名称修改
 
-### 测试02
+#### 当前问题
+
+* ![](../images/img27.png)
+* 含有主机名称
+
+#### 解决
+
+* YML补充eureka.instance.instance-id指定实例id即可
+
+### 访问信息有ip信息提示
+
+* 微服务点击跳转链接，并没有携带真实ip地址
+* ![](../images/img28.png)
+* 在YML中补充eureka.instance.prefer-ip-address，即可自动获取本机ip，生效于eureka可视化界面的链接上 
