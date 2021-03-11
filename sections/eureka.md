@@ -355,6 +355,7 @@
 ## 服务发现Discovery
 
 * 对于注册进eureka里面的微服务，可以通过服务发现来获得改服务的信息
+
   * 通过注入DiscoveryClient的bean
   * getServices方法可以获取注册中心注册的全部服务名称
   * getInstances(服务名) 可以获取具体的服务名称的实例，返回一个ServiceInstance类型的List
@@ -363,6 +364,43 @@
     *  getHost方法 获取主机地址
     *  getPort方法 获取端口号
     *  getUri方法 获取整体的访问链接
+
 * 8001主启动类
+
   * 要想以上的功能有效，需要在主启动类上使用EnableDiscoveryClient注解开启
+
 * 自测
+
+  * postman请求http://127.0.0.1:8001/payment/discovery
+
+  * 后台打印
+
+  * ```java
+    2021-03-11 01:45:50.086  INFO 5108 --- [nio-8001-exec-1] c.f.s.controller.PaymentController       : *************elemnet:cloud-cpnsumer-order
+    2021-03-11 01:45:50.086  INFO 5108 --- [nio-8001-exec-1] c.f.s.controller.PaymentController       : *************elemnet:cloud-payment-service
+    2021-03-11 01:45:50.087  INFO 5108 --- [nio-8001-exec-1] c.f.s.controller.PaymentController       : CLOUD-PAYMENT-SERVICE	192.168.31.235	8002	http://192.168.31.235:8002
+    2021-03-11 01:45:50.087  INFO 5108 --- [nio-8001-exec-1] c.f.s.controller.PaymentController       : CLOUD-PAYMENT-SERVICE	192.168.31.235	8001	http://192.168.31.235:8001
+    ```
+
+## Eureka自我保护机制
+
+### 概述
+
+* 保护模式主要用于一组客户端和EurekaServer之间存在网络分区场景下的保护，一旦进入保护模式，EurekaServer将会尝试保护其服务注册表中信息，不会删除服务注册表中的数据，也就是不会注销任何微服务
+
+* 如果EurekaServer的首页看到以下这段提示，则说明Eureka进入了保护模式：
+
+* #### **EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY'RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.**
+
+* ![](../images/img29.png)
+
+* **一句话说明：某时刻某一个微服务可不用了，Eureka不会立刻清理，依旧会对微服务的信息进行保存**
+
+* 属于CAP里面的AP分支
+
+### 为什么这么设计
+
+* 为什么会产生Eureka自我保护机制
+  * 为了防止EurekaClient可以正常运行，但是与EurekaServer网络不通的情况下，EurekaServer不会立刻将EurekaClient服务剔除
+* 什么是自我保护机制
+  * 默认情况下，如果EurekaServer在一定时间内没有接受到某个微服务实例的心跳，EurekaServer将会注销该实例（默认90秒）。但是当网络分区故障发生（延迟，卡顿，拥挤）时，微服务与EurekaServer之间无法正常通信，以上行为可能变得危险--因为微服务本身其实是健康的，此时本不应该注销这个微服务。Eureka通过“自我保护模式”来解决这个问题--当EurekaServer节点在短时间丢失过多客户端时（可能发生了网络分区故障），那么这个节点就会进入自我保护模式
