@@ -404,3 +404,14 @@
   * 为了防止EurekaClient可以正常运行，但是与EurekaServer网络不通的情况下，EurekaServer不会立刻将EurekaClient服务剔除
 * 什么是自我保护机制
   * 默认情况下，如果EurekaServer在一定时间内没有接受到某个微服务实例的心跳，EurekaServer将会注销该实例（默认90秒）。但是当网络分区故障发生（延迟，卡顿，拥挤）时，微服务与EurekaServer之间无法正常通信，以上行为可能变得危险--因为微服务本身其实是健康的，此时本不应该注销这个微服务。Eureka通过“自我保护模式”来解决这个问题--当EurekaServer节点在短时间丢失过多客户端时（可能发生了网络分区故障），那么这个节点就会进入自我保护模式
+
+### 如何关闭自我保护
+
+* ​	注册中心
+  * eureka.server.enable-self-preservation（开启自我保护机制）默认为true，改为false
+  * eviction-interval-timer-in-ms（收到心跳的间隔）默认为60秒（2.2.7版本），改为2000毫秒
+  * ![](../images/img30.png)
+
+* 客户端
+  *  eureka.instance.lease-renewal-interval-in-seconds（客户端向服务端发送心跳的间隔）默认为30秒，修改为1秒
+  *  eureka.instance.lease-expiration-duration-in-seconds（服务端在收到最后一次心跳后等待的时间上限，默认为90秒，超时则剔除服务）改为2秒

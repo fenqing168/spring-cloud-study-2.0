@@ -7,6 +7,8 @@
 
 3. ### [eureka](sections/eureka.md)
 
+4. ### [Zookeeper服务注册与发现](sections/zookeeper.md)
+
 ### 微服务架构概述
 
 #### 什么事微服务
@@ -716,3 +718,4 @@
 ## 后续工作见各组件目录补充
 
 1. [eureka](#eureka)
+2. [zookeeper](#Zookeeper服务注册与发现)
