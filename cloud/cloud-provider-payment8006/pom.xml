@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloud-consumerzk-order80</artifactId>
+    <artifactId>cloud-provider-payment8006</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -41,22 +41,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
-        <!--fastjson json操作工具-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-
         <!--项目共用依赖-->
         <dependency>
             <groupId>cn.fenqing168.springcloud</groupId>
             <artifactId>cloud-api-commons</artifactId>
         </dependency>
 
-        <!-- spring cloud zookeeper 客户端组件 -->
+        <!-- consul 的spring cloud依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
         </dependency>
 
     </dependencies>

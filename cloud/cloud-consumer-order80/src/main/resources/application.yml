@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: cloud-cpnsumer-order
+    name: cloud-consumer-order
 
 eureka:
   client:
