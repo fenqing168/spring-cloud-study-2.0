@@ -9,6 +9,8 @@
 
 4. ### [Zookeeper服务注册与发现](sections/zookeeper.md)
 
+5. ### [Consul](sections/consul.md)
+
 ### 微服务架构概述
 
 #### 什么事微服务
@@ -719,3 +721,4 @@
 
 1. [eureka](#eureka)
 2. [zookeeper](#Zookeeper服务注册与发现)
+3. [Consul](#Consul)
