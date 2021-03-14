@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>cloud-cpnsumer-order80</artifactId>
+  <artifactId>cloud-consumer-order80</artifactId>
 
   <name>cloud-cpnsumer-order80</name>
   <inceptionYear>2001</inceptionYear>

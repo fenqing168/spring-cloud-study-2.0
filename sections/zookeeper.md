@@ -145,3 +145,77 @@
   * 所以zookeeper做注册中心，使用的是临时节点
 
 ### 服务消费者
+
+#### 新建cloud-consumerzk-order80 
+
+#### POM 
+
+* 与cloud-consumer-order80，eureka相关依赖换成zookeeper依赖
+
+#### YML 
+
+* ```yaml
+  server:
+    port: 80
+    
+  spring:
+    application:
+      name: cloud-consumer-order
+    cloud:
+      zookeeper:
+        connect-string: 192.168.31.200:2181
+  ```
+
+#### 主启动 
+
+* ```java
+  @SpringBootApplication
+  @EnableDiscoveryClient
+  public class OrderApplication {
+  
+      public static void main(String[] args) {
+          SpringApplication.run(OrderApplication.class, args);
+      }
+  
+  }
+  
+  ```
+
+#### 业务类 
+
+* ```java
+  @Configuration
+  public class ApplicationContextConfig {
+  
+      @Bean
+      @LoadBalanced
+      public RestTemplate getRestTemplate(){
+          return new RestTemplate();
+      }
+  
+  }
+  
+  ```
+
+* ```java
+  @RestController
+  public class OrderZkController {
+  
+      @Autowired
+      private RestTemplate restTemplate;
+  
+      private static final String INVOKE_URL = "http://cloud-provider-payment";
+  
+      @GetMapping("/consumer/payment/zk")
+      public String paymentInfo(){
+          return restTemplate.getForObject(INVOKE_URL + "/payment/zk", String.class);
+      }
+  
+  }
+  ```
+
+#### 验证测试 
+
+* ![](../images/img33.png)
+
+#### 访问测试
